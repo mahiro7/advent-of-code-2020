@@ -1,20 +1,24 @@
-var fs = require('fs')
-var content = fs.readFileSync('tob.txt','utf8')
-var lines = content.split('\r')
+const fs = require('fs')
+const content = fs.readFileSync('tob.txt','utf8')
+const lines = content.split('\r')
+const rowIndex = lines[0].length-1
 
-var t = 0
-var i = 0
-var count = 0
-var rowIndex = lines[0].length-1
-
-while(i < lines.length - 1){
-    if((rowIndex-t) < 3){
-        t = t-rowIndex-1
+function slope(x, y){
+    var i = 0
+    var t = 0
+    var count = 0
+    while(i < lines.length - 1){
+        if((rowIndex-t) < x){
+            t = t-rowIndex-1
+        }
+        t+=x
+        i+=y
+        if(lines[i][t+1]==="#"){
+            count++
+        }
     }
-    t+=3
-    i++
-    if(lines[i][t+1]==="#"){
-        count++
-    }
+    return count
 }
-console.log(count)
+const result0 = slope(3,1)
+const result1 = slope(1,1)*slope(3,1)*slope(5,1)*slope(7,1)*slope(1,2)
+console.log(`Part one: ${result0} \nPart two: ${result1}`)
